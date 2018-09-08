@@ -47,7 +47,7 @@ class RoomList extends React.Component {
                     {
                         this.state.rooms.map( (value, index) =>
                             <section className='value-info'>
-                                <div className='room-number'>{value.name}</div>
+                                <div className='room-number' onClick={this.handleRoomClick}>{value.name}</div>
                             </section>
                         )
                     }
