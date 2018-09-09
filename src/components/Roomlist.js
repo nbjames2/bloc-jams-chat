@@ -6,7 +6,8 @@ class RoomList extends React.Component {
         this.roomsRef = this.props.firebase.database().ref('rooms');
         this.state = {
           rooms: [],
-          newRoom: "Add a new room"
+          newRoom: "Add a new room",
+          active: ""
         };
     }
 
@@ -32,13 +33,26 @@ class RoomList extends React.Component {
         this.setState({ newRoom: e.target.value });
       }
 
+      roomHighlight(name) {
+          if(this.state.active == name) {
+              return '#bcbcbc';
+          }
+          return "";
+      }
+
+      handleClick(name) {
+          this.setState({ active: name });
+          this.props.handleRoomClick(name);
+
+      }
+
     render() {
         return(
             <section id='roomlist'> 
                 <div id='new-room-form'>              
                     <form onSubmit={this.handleSubmit}>
                         <label>
-                            <input type="text" value={this.state.newRoom} onChange={this.handleFormChange}/>
+                            <input id='input-new-room' type="text" value={this.state.newRoom} onChange={this.handleFormChange}/>
                         </label>
                         <input type="submit" value="Add" />
                     </form>
@@ -47,7 +61,7 @@ class RoomList extends React.Component {
                     {
                         this.state.rooms.map( (value, index) =>
                             <section className='value-info'>
-                                <div className='room-number' onClick={this.handleRoomClick}>{value.name}</div>
+                                <div className='room-number' style={{background: this.roomHighlight(value.name)}} value={value.name} onClick={() => this.handleClick(value.name)}>{value.name}</div>
                             </section>
                         )
                     }

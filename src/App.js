@@ -25,7 +25,8 @@ class App extends Component {
   }
 
   handleRoomClick(e) {
-    this.state({ activeRoom: e.target.value });
+    const temproom = e;
+    this.setState({ activeRoom: temproom });
     console.log(this.state.activeRoom);
   }
 
