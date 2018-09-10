@@ -22,11 +22,11 @@ class MessageList extends React.Component {
         return(
             <section id='messagelist'>
                 <h1>{this.props.activeRoom}</h1>
-                {
+                {/* {
                     this.state.messages.map( (value, index) =>
                     
-                    )
-                }
+                    );
+                } */}
             </section>
         )
     }

@@ -24,12 +24,13 @@
   width: 20%;
 }
 
-#subsidebar {
+#sidebar > #subsidebar {
   display: inline-block;
   position: fixed;
   top: 0;
   padding-top: 3%;
   padding-left: 3%;
+  width: 17%;
 }
 
 .value-info {
@@ -45,6 +46,11 @@ h1 {
 
 .room-number {
   color: #999999;
+  margin-top: 5%;
+  width: 80%;
+  font-size: 1.5em;
 }
 
-
+#input-new-room {
+  width: 80%;
+}

@@ -16,7 +16,6 @@ class RoomList extends React.Component {
             const room = snapshot.val();
             room.key = snapshot.key;
             this.setState({ rooms: this.state.rooms.concat( room ) });
-            console.log(this.state.rooms);
         });
       }
 
@@ -34,7 +33,7 @@ class RoomList extends React.Component {
       }
 
       roomHighlight(name) {
-          if(this.state.active == name) {
+          if(this.state.active === name) {
               return '#bcbcbc';
           }
           return "";
@@ -60,9 +59,7 @@ class RoomList extends React.Component {
                     <section className='db-rooms'>
                     {
                         this.state.rooms.map( (value, index) =>
-                            <section className='value-info'>
-                                <div className='room-number' style={{background: this.roomHighlight(value.name)}} value={value.name} onClick={() => this.handleClick(value.name)}>{value.name}</div>
-                            </section>
+                                <div className='room-number' style={{background: this.roomHighlight(value.name)}} value={value.name} onClick={() => this.handleClick(value.name)} key={index}>{value.name}</div>
                         )
                     }
                 </section>
