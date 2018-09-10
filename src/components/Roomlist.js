@@ -6,7 +6,7 @@ class RoomList extends React.Component {
         this.roomsRef = this.props.firebase.database().ref('rooms');
         this.state = {
           rooms: [],
-          newRoom: "Add a new room",
+          newRoom: "",
           active: ""
         };
     }
@@ -20,11 +20,14 @@ class RoomList extends React.Component {
       }
 
       handleSubmit = (e) => {
+        e.preventDefault();
         const newRoomName = this.state.newRoom
-        if (newRoomName !== "Add a new room") {
+        if (newRoomName !== "") {
             this.roomsRef.push({
-                name: newRoomName
+                name: newRoomName,
             });
+        this.setState({ newRoom: "" })
+
         }
       }
 
@@ -49,11 +52,9 @@ class RoomList extends React.Component {
         return(
             <section id='roomlist'> 
                 <div id='new-room-form'>              
-                    <form onSubmit={this.handleSubmit}>
-                        <label>
-                            <input id='input-new-room' type="text" value={this.state.newRoom} onChange={this.handleFormChange}/>
-                        </label>
-                        <input type="submit" value="Add" />
+                    <form onSubmit={ (e) => this.handleSubmit(e) }>
+                        <input id='input-new-room' type="text" value={this.state.newRoom} onChange={this.handleFormChange}/>
+                        <input type="submit" value="Add room" />
                     </form>
                 </div>
                     <section className='db-rooms'>
