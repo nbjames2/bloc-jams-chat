@@ -10,16 +10,15 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+#fullscreen {
+  width: 100%;
+  height: 100%;
 }
 
 #sidebar {
-  position: absolute;
+  position: fixed;
   top: 0;
   background: lightgray;
-  float: left;
   height: 100%;
   width: 20%;
 }
@@ -53,4 +52,30 @@ h1 {
 
 #input-new-room {
   width: 70%;
+}
+
+#messagelist {
+  height:100%;
+}
+
+#messages {
+  top: 0;
+  background: white;
+  float: right;
+  height: 10%;
+  width: 80%;
+  padding-top: 2%;
+  text-align: center;
+}
+
+.message-user {
+  text-align: left;
+}
+
+.message-content {
+  text-align: center;
+}
+
+.message-sentAt {
+  text-align: right;
 }

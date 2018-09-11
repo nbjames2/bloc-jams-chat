@@ -7,7 +7,7 @@ class RoomList extends React.Component {
         this.state = {
           rooms: [],
           newRoom: "",
-          active: ""
+          active: ""          
         };
     }
 
@@ -42,10 +42,9 @@ class RoomList extends React.Component {
           return "";
       }
 
-      handleClick(name) {
-          this.setState({ active: name });
-          this.props.handleRoomClick(name);
-
+      handleClick(room) {
+          this.setState({ active: room });
+          this.props.handleRoomClick(room);
       }
 
     render() {
@@ -60,7 +59,7 @@ class RoomList extends React.Component {
                     <section className='db-rooms'>
                     {
                         this.state.rooms.map( (value, index) =>
-                                <div className='room-number' style={{background: this.roomHighlight(value.name)}} value={value.name} onClick={() => this.handleClick(value.name)} key={index}>{value.name}</div>
+                                <div className='room-number' style={{background: this.roomHighlight(value.name)}} value={value.name} onClick={() => this.handleClick(value)} key={value.key}>{value.name}</div>
                         )
                     }
                 </section>

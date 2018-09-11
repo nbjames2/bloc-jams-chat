@@ -25,25 +25,28 @@ class App extends Component {
   }
 
   handleRoomClick(e) {
-    const temproom = e;
-    this.setState({ activeRoom: temproom });
+    this.setState({ activeRoom: e });
   }
 
   render() {
     return (
-      <section id='sidebar'>
-        <div id='subsidebar'>
-          <h1>Bloc Chat</h1>
-          <RoomList id='roomlist'
-            firebase={firebase}
-            activeRoom={this.state.activeRoom}
-            handleRoomClick={(e) => this.handleRoomClick(e)}
-          />
+      <section id="fullscreen">
+        <section id='sidebar'>
+          <div id='subsidebar'>
+            <h1>Bloc Chat</h1>
+            <RoomList id='roomlist'
+              firebase={firebase}
+              activeRoom={this.state.activeRoom}
+              handleRoomClick={(e) => this.handleRoomClick(e)}
+            />
+          </div>
+        </section>
+        <section id='messages'>
           <MessageList id='messagelist'
             firebase={firebase}
             activeRoom={this.state.activeRoom}
           />
-        </div>
+        </section> 
       </section>
     );
   }
