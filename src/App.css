@@ -43,6 +43,10 @@ h1 {
   font-size: 2.1em;
 }
 
+#title {
+  width: 55%;
+}
+
 .room-number {
   color: #999999;
   margin-top: 5%;
@@ -73,9 +77,25 @@ h1 {
 }
 
 .message-content {
-  text-align: center;
+  text-align: left;
 }
 
 .message-sentAt {
   text-align: right;
+  
+}
+
+#sign-in {
+  float: right;
+  width: 100%;
+  margin-bottom: 3%;
+}
+
+#sign-in-button {
+  float: right;
+  margin-right: 6%;
+}
+
+#current-user {
+  float: left;
 }

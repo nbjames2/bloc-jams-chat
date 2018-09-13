@@ -43,7 +43,7 @@ class RoomList extends React.Component {
       }
 
       handleClick(room) {
-          this.setState({ active: room });
+          this.setState({ active: room.name });
           this.props.handleRoomClick(room);
       }
 
