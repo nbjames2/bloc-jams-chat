@@ -60,6 +60,9 @@ h1 {
 
 #messagelist {
   height:100%;
+  position: fixed;
+  top: 0;
+  width: 80%;
 }
 
 #messages {
@@ -94,8 +97,36 @@ h1 {
 #sign-in-button {
   float: right;
   margin-right: 6%;
+  width: 23%;
 }
 
 #current-user {
   float: left;
+}
+
+#create-message {
+  width: 100%;
+  float: right;
+  bottom: 0;
+  position: absolute;
+}
+
+#send-message {
+  width: 100%;
+  float: right;
+}
+
+#newmessagefield {
+  width:95%;
+  float: left;
+  padding-top: 0.66%;
+  padding-bottom: 0.66%;
+  background: #f4f4f4;
+  
+}
+
+#newmessagesend {
+  width: 4.5%;
+  padding-top: 0.66%;
+  padding-bottom: 0.66%;
 }

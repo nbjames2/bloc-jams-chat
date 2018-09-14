@@ -6,20 +6,27 @@ class MessageList extends React.Component {
         this.messagesRef = this.props.firebase.database().ref('messages');
         this.state={
             messages: [],
-            displayedMessages: []
+            displayedMessages: [],
+            newMessage: ""
         }
     }
 
     componentDidMount() {
-        this.messagesRef.on('child_added', snapshot => {
-            const message = snapshot.val();
-            message.key = snapshot.key;
-            this.setState({ messages: this.state.messages.concat( message ) });
-        });
+        this.getMessages();
       }
     
       componentWillReceiveProps(nextProps) {
         this.updateMessages( nextProps.activeRoom );
+      }
+
+      getMessages() {
+        this.messagesRef.on('child_added', snapshot => {
+            const message = snapshot.val();
+            message.key = snapshot.key;
+            this.setState({ messages: this.state.messages.concat( message ) }, () => {
+                this.updateMessages( this.props.activeRoom)
+            });
+        });
       }
 
       updateMessages(activeRoom) {
@@ -36,7 +43,33 @@ class MessageList extends React.Component {
         }
       }
 
+      handleInputChange = (e) => {
+        this.setState({ newMessage: e.target.value });
+      }
 
+      timeConverter(e) { 
+        const today = e % 86400000;
+        const hours = Math.floor(today / 3600000);
+        let minutes = Math.floor(((today / 1000) - (hours * 3600)) / 60);
+        if (minutes < 10) {
+            minutes = "0" + minutes; 
+        } 
+        return hours + ':' + minutes;
+      }
+
+      handleSendMessage = (e) => {
+        e.preventDefault();
+        console.log(this.state.newMessage);
+        if (this.state.newMessage !== "") {
+            this.messagesRef.push({
+                content: this.state.newMessage,
+                roomId: this.props.activeRoom.key,
+                sentAt: Date.now(),
+                username: this.props.userAuth.displayName
+            });
+        }
+        this.setState({ newMessage: "" })
+      }
 
     render() {
         return(
@@ -46,10 +79,16 @@ class MessageList extends React.Component {
                         <div key={index} style={{background: index % 2 ? '#f2feff':'#fffffff' }} className='messages'>
                             <div className='message-user'>{value.username}</div>
                             <div className='message-content'>{value.content}</div>
-                            <div className='message-sentAt'>{value.sentAt}</div>
+                            <div className='message-sentAt'>{this.timeConverter(value.sentAt)}</div>
                         </div>
                     )
                 }
+                <section id='create-message'>
+                    <form id='send-message'>
+                        <input id='newmessagefield' type='text' value={this.state.newMessage} placeholder='Send new message' onChange={this.handleInputChange} />
+                        <input id='newmessagesend' type='submit' value='Send' onClick={this.handleSendMessage} />
+                    </form>
+                </section>
             </section>
         )
     }

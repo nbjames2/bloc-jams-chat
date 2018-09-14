@@ -52,7 +52,7 @@ class RoomList extends React.Component {
             <section id='roomlist'> 
                 <div id='new-room-form'>              
                     <form onSubmit={ (e) => this.handleSubmit(e) }>
-                        <input id='input-new-room' type="text" value={this.state.newRoom} onChange={this.handleFormChange}/>
+                        <input id='input-new-room' type="text" placeholder='Open new room' value={this.state.newRoom} onChange={this.handleFormChange}/>
                         <input type="submit" value="Add room" />
                     </form>
                 </div>
