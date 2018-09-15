@@ -47,6 +47,14 @@ class RoomList extends React.Component {
           this.props.handleRoomClick(room);
       }
 
+      removeRoom = (e) => {
+          if (this.props.activeRoom) {
+            this.roomsRef.child(e.key).remove();
+            const tempRooms = this.state.rooms.filter( (room) => room.key !== e.key);
+            this.setState({ rooms: tempRooms });
+          }
+      }
+
     render() {
         return(
             <section id='roomlist'> 
@@ -59,7 +67,10 @@ class RoomList extends React.Component {
                     <section className='db-rooms'>
                     {
                         this.state.rooms.map( (value, index) =>
-                                <div className='room-number' style={{background: this.roomHighlight(value.name)}} value={value.name} onClick={() => this.handleClick(value)} key={value.key}>{value.name}</div>
+                                <div className='room-number' style={{background: this.roomHighlight(value.name)}} value={value.name} onClick={() => this.handleClick(value)} key={value.key}>
+                                    {value.name}
+                                    {value.key === this.props.activeRoom.key ? <button id='delete-room' onClick={ () => this.removeRoom(this.props.activeRoom)}>Delete</button> : "" } 
+                                </div>
                         )
                     }
                 </section>

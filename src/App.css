@@ -50,7 +50,7 @@ h1 {
 .room-number {
   color: #999999;
   margin-top: 5%;
-  width: 80%;
+  width: 94%;
   font-size: 1.5em;
 }
 
@@ -129,4 +129,10 @@ h1 {
   width: 4.5%;
   padding-top: 0.66%;
   padding-bottom: 0.66%;
+}
+
+#delete-room {
+  float: right;
+  margin-top: 1%;
+  margin-right: 1%;
 }

@@ -59,7 +59,6 @@ class MessageList extends React.Component {
 
       handleSendMessage = (e) => {
         e.preventDefault();
-        console.log(this.state.newMessage);
         if (this.state.newMessage !== "") {
             this.messagesRef.push({
                 content: this.state.newMessage,
