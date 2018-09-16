@@ -1,0 +1,53 @@
+import React, { Component } from "react";
+// import ReactDOM from "react-dom";
+
+class Dashboard extends Component {
+    state = { newName: "" }
+
+    onNameChange = (e) => {
+        this.setState({ newName: e.target.value });
+    }
+
+    newName = (e) => {
+        e.preventDefault();
+        const roomname = this.state.newName;
+        console.log(roomname);
+        if (roomname) {
+            this.props.renameRoom(roomname);
+            this.setState({ newName: "" });
+            this.props.hideModal();
+        }
+    }
+
+    render() {
+        return(
+            <section id='modal-main'>
+                <Modal show={this.props.show} hideModal={this.props.hideModal}>
+                    <form>
+                        <div id='modaltitle'><label>{this.props.modalMessage}</label></div>
+                        <input type="text" placeholder='enter new name' value={this.state.newName} onChange={this.onNameChange}/>
+                        <input type="submit" value="Submit" onClick={this.newName} />
+                    </form>
+                </Modal>
+            </section>
+        );
+    }
+}
+
+const Modal = ({ show, hideModal, children }) => {
+    const showHideClassName = show ? "display-block" : "display-none";
+
+    return (
+        <div className={showHideClassName}>
+            <section className="modal-main">
+                {children}
+                <button id='modalClose' onClick={hideModal}>close</button>
+            </section>
+        </div>
+    );
+};
+// const container = document.createElement("div");
+// document.body.appendChild(container);
+// ReactDOM.render(<Dashboard />, container);
+
+export default Dashboard;
