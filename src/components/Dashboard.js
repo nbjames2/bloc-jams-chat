@@ -11,9 +11,8 @@ class Dashboard extends Component {
     newName = (e) => {
         e.preventDefault();
         const roomname = this.state.newName;
-        console.log(roomname);
         if (roomname) {
-            this.props.renameRoom(roomname);
+            this.props.modalResult(roomname);
             this.setState({ newName: "" });
             this.props.hideModal();
         }

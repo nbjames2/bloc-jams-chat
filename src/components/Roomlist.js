@@ -64,17 +64,19 @@ class RoomList extends React.Component {
     removeRoom = (e) => {
         if (this.props.activeRoom) {
             this.roomsRef.child(e.key).remove();
-            const tempRooms = this.state.displayedRooms.filter( (room) => room.key !== e.key);
-            this.setState({ displayedRooms: tempRooms });
+            const tempRooms = this.state.rooms.filter( (room) => room.key !== e.key);
+            this.setState({ rooms: tempRooms });
         }
     }
 
-    renameRoom = (e) => {
-        console.log(e);
-        if (e.name !== "") {
+    modalResult = (e) => {
+        if (e !== "") {
             const active = this.props.activeRoom;
-            this.setState({ show: true })
-            return this.props.firebase.database().ref().child("rooms").child(active.key).update({ name: e});
+            this.props.firebase.database().ref().child("rooms").child(active.key).update({ name: e});
+            const index = this.state.rooms.findIndex(room => room.name === this.props.activeRoom.name);
+            const tempRooms = [...this.state.rooms];
+            tempRooms[index].name = e;
+            this.setState({ rooms: tempRooms });
         }
     }    
 
@@ -85,7 +87,7 @@ class RoomList extends React.Component {
                     show={this.state.show}
                     modalMessage={this.state.modalMessage}
                     hideModal={() => this.hideModal()}
-                    renameRoom={(name) => this.renameRoom(name)}
+                    modalResult={(name) => this.modalResult(name)}
                 /></div> : null }
                 <div id='new-room-form'>              
                     <form onSubmit={ (e) => this.handleSubmit(e) }>
@@ -100,7 +102,7 @@ class RoomList extends React.Component {
                                     {value.name}
                                     {value.key === this.props.activeRoom.key ? 
                                         <div>
-                                            <button id='rename-room' onClick={ () => this.renameRoom(this.props.activeRoom)}>Rename</button>
+                                            <button id='rename-room' onClick={ this.showModal}>Rename</button>
                                             <button id='delete-room' onClick={ () => this.removeRoom(this.props.activeRoom)}>Delete</button>
                                         </div> : "" } 
                                 </div>

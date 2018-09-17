@@ -12,14 +12,6 @@ class MessageList extends React.Component {
     }
 
     componentDidMount() {
-        this.getMessages();
-      }
-    
-      componentWillReceiveProps(nextProps) {
-        this.updateMessages( nextProps.activeRoom );
-      }
-
-      getMessages() {
         this.messagesRef.on('child_added', snapshot => {
             const message = snapshot.val();
             message.key = snapshot.key;
@@ -27,6 +19,10 @@ class MessageList extends React.Component {
                 this.updateMessages( this.props.activeRoom)
             });
         });
+      }
+    
+      componentWillReceiveProps(nextProps) {
+        this.updateMessages( nextProps.activeRoom );
       }
 
       updateMessages(activeRoom) {
@@ -70,6 +66,14 @@ class MessageList extends React.Component {
         this.setState({ newMessage: "" })
       }
 
+      removeMessage = (message) => {
+            this.messagesRef.child(message.key).remove();
+            const tempMessages = this.state.messages.filter( (msg) => msg.key !== message.key);
+            this.setState({ messages: tempMessages });
+            console.log(this.state.messages);
+            this.updateMessages(this.props.activeRoom);
+      }
+
     render() {
         return(
             <section id='messagelist'>
@@ -79,6 +83,7 @@ class MessageList extends React.Component {
                             <div className='message-user'>{value.username}</div>
                             <div className='message-content'>{value.content}</div>
                             <div className='message-sentAt'>{this.timeConverter(value.sentAt)}</div>
+                            <button id='deletemessagebutton' onClick={ () => this.removeMessage(value)}>Delete</button>
                         </div>
                     )
                 }
