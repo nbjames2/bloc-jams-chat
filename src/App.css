@@ -24,12 +24,9 @@
 }
 
 #sidebar > #subsidebar {
-  display: inline-block;
-  position: fixed;
   top: 0;
   padding-top: 3%;
   padding-left: 3%;
-  width: 17%;
 }
 
 .value-info {

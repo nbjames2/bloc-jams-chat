@@ -19,31 +19,31 @@ class MessageList extends React.Component {
                 this.updateMessages( this.props.activeRoom)
             });
         });
-      }
+    }
     
-      componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         this.updateMessages( nextProps.activeRoom );
-      }
+    }
 
-      updateMessages(activeRoom) {
+    updateMessages(activeRoom) {
         if (!activeRoom) { return }
         const msg = this.state.messages.filter( message => message.roomId === activeRoom.key );
         this.setState({ displayedMessages: msg});
-      }
+    }
 
-      messageBackground () {
+    messageBackground () {
         if (this.state.messagebg === '#000000') {
             this.setState({ messagebg: '#fffffff' });
         } else {
             this.setState({ messagebg: '#000000' })
         }
-      }
+    }
 
-      handleInputChange = (e) => {
+    handleInputChange = (e) => {
         this.setState({ newMessage: e.target.value });
-      }
+    }
 
-      timeConverter(e) { 
+    timeConverter(e) { 
         const today = e % 86400000;
         const hours = Math.floor(today / 3600000);
         let minutes = Math.floor(((today / 1000) - (hours * 3600)) / 60);
@@ -51,9 +51,9 @@ class MessageList extends React.Component {
             minutes = "0" + minutes; 
         } 
         return hours + ':' + minutes;
-      }
+    }
 
-      handleSendMessage = (e) => {
+    handleSendMessage = (e) => {
         e.preventDefault();
         if (this.state.newMessage !== "") {
             this.messagesRef.push({
@@ -64,14 +64,21 @@ class MessageList extends React.Component {
             });
         }
         this.setState({ newMessage: "" })
-      }
+    }
 
-      removeMessage = (message) => {
-            this.messagesRef.child(message.key).remove();
-            const tempMessages = this.state.messages.filter( (msg) => msg.key !== message.key);
-            this.setState({ messages: tempMessages });
-            console.log(this.state.messages);
-            this.updateMessages(this.props.activeRoom);
+    removeMessage = (message) => {
+        this.messagesRef.child(message.key).remove();
+        const tempDispMessages = this.state.displayedMessages.filter( (msg) => msg.key !== message.key);
+        const tempMessages = this.state.messages.filter( (msgs) => msgs.key !== message.key);
+        this.setState({ displayedMessages: tempDispMessages,
+                        messages: tempMessages });
+
+        // const index = this.state.displayedMessages.findIndex(room => room.name === this.props.activeRoom.name);
+        // const tempRooms = [...this.state.rooms];
+        // tempRooms[index].name = e;
+        // const msgs = this.state.messages.filter( msgs => msgs.roomId === this.props.activeRoom.key );
+        // this.setState({ displayedMessages: msgs});
+
       }
 
     render() {
