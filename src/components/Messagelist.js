@@ -1,4 +1,5 @@
 import React from 'react';
+import Dashboard from './Dashboard';
 
 class MessageList extends React.Component {
     constructor(props) {
@@ -7,7 +8,11 @@ class MessageList extends React.Component {
         this.state={
             messages: [],
             displayedMessages: [],
-            newMessage: ""
+            newMessage: "",
+            show: false,
+            modalMessage: "Edit message content",
+            messageContent: "",
+            activeMessage: ""
         }
     }
 
@@ -72,25 +77,50 @@ class MessageList extends React.Component {
         const tempMessages = this.state.messages.filter( (msgs) => msgs.key !== message.key);
         this.setState({ displayedMessages: tempDispMessages,
                         messages: tempMessages });
-
-        // const index = this.state.displayedMessages.findIndex(room => room.name === this.props.activeRoom.name);
-        // const tempRooms = [...this.state.rooms];
-        // tempRooms[index].name = e;
-        // const msgs = this.state.messages.filter( msgs => msgs.roomId === this.props.activeRoom.key );
-        // this.setState({ displayedMessages: msgs});
-
       }
+
+    showModal = (value) => {
+
+        this.setState({ show: true,
+                        activeMessage: value });
+    };
+
+    hideModal = () => {
+        this.setState({ show: false });
+    };
+
+    modalResult = (e) => {
+        if (e !== "") {
+            this.props.firebase.database().ref().child("messages").child(this.state.activeMessage.key).update({ content: e});
+            const index = this.state.messages.findIndex(msg => msg.key === this.state.activeMessage.key);
+            const displayedIndex = this.state.displayedMessages.findIndex(msg => msg.key === this.state.activeMessage.key);
+            const tempMessages = [...this.state.messages];
+            const tempDisplayedMessages = [...this.state.displayedMessages];
+            tempMessages[index].content = e;
+            tempDisplayedMessages[displayedIndex].content = e;
+            this.setState({ messages: tempMessages,
+                            displayedMessages: tempDisplayedMessages });
+        }
+    }    
 
     render() {
         return(
             <section id='messagelist'>
                 <h1>{this.props.activeRoom.name}</h1>
+                {this.state.show ? <div><Dashboard
+                    show={this.state.show}
+                    modalMessage={this.state.modalMessage}
+                    hideModal={() => this.hideModal()}
+                    modalResult={(name) => this.modalResult(name)}
+                    messageContent={this.state.messageContent}
+                /></div> : null }
                 { this.state.displayedMessages.map( (value, index) =>
                         <div key={index} style={{background: index % 2 ? '#f2feff':'#fffffff' }} className='messages'>
                             <div className='message-user'>{value.username}</div>
                             <div className='message-content'>{value.content}</div>
                             <div className='message-sentAt'>{this.timeConverter(value.sentAt)}</div>
                             <button id='deletemessagebutton' onClick={ () => this.removeMessage(value)}>Delete</button>
+                            <button id='editmessagebutton' onClick={ () => this.showModal(value)}>Edit</button>
                         </div>
                     )
                 }

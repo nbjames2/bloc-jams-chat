@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import ReactDOM from "react-dom";
 
 class Dashboard extends Component {
-    state = { newName: "" }
+    state = { newName: this.props.messageContent || "" }
 
     onNameChange = (e) => {
         this.setState({ newName: e.target.value });
