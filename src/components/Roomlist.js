@@ -22,7 +22,6 @@ class RoomList extends React.Component {
             room.key = snapshot.key;
             this.setState({ rooms: this.state.rooms.concat( room ) });
         });
-
       }
 
     showModal = () => {
