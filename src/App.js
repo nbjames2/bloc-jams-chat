@@ -22,7 +22,9 @@ class App extends Component {
     super(props);
     this.state={
       activeRoom: "",
-      userAuth: ""
+      userAuth: "",
+      admin: false,
+      userList: []
     }
   }
 
@@ -32,6 +34,14 @@ class App extends Component {
 
   setUser(user) {
     this.setState({ userAuth: user });
+  }
+
+  setAdmin(setTo) {
+    this.setState({ admin: setTo });
+  }
+
+  populateUserList(users) {
+    this.setState({ userList: this.state.userList.concat( users ) });
   }
 
   render() {
@@ -44,10 +54,14 @@ class App extends Component {
               firebase={firebase}
               userAuth={this.state.userAuth}
               setUser={(user) => this.setUser(user)}
+              setAdmin={(setTo) => this.setAdmin(setTo)}
+              populateUserList={(users) => this.populateUserList(users)}
             />
             <RoomList id='roomlist'
               firebase={firebase}
               activeRoom={this.state.activeRoom}
+              admin={this.state.admin}
+              userList={this.state.userList}
               handleRoomClick={(e) => this.handleRoomClick(e)}
             />
           </div>

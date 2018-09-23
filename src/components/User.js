@@ -3,27 +3,27 @@ import React from 'react';
 class User extends React.Component {
     constructor(props) {
         super(props);
+        this.usersRef = this.props.firebase.database().ref('users');
         this.state = {
             user: "",
             nameDisplayed: "",
-            displayButton: 'Sign in'
+            displayButton: 'Sign in',
+            users: []
         }
     }
 
-    componentDidMount () {
+    componentDidMount () {        
         this.props.firebase.auth().onAuthStateChanged( user => {
             this.props.setUser(user)
-            let admin = false;
+            let admin = false;            
             if (user) {
                 let userRef = this.props.firebase.database().ref('admin');
                 userRef.on('child_added', snapshot => {
                     const userkey = snapshot.val();
                     if (userkey === user.uid) {
                         admin = true;
+                        this.props.setAdmin(true);
                     }
-                    console.log(userkey);
-                    console.log(user.uid);
-                    console.log(admin);
                     if (admin) {
                         this.setState({ nameDisplayed: user.displayName + ' Admin' });
                     } else {
@@ -31,6 +31,12 @@ class User extends React.Component {
                     }
                 }); 
             }
+        });
+        this.usersRef.on('child_added', snapshot => {
+            const login = snapshot.val();
+            login.key = snapshot.key;
+            this.setState({ users: this.state.users.concat( login ) });
+            this.props.populateUserList( login );
         });
     }
 
@@ -41,12 +47,8 @@ class User extends React.Component {
     handleSignout() {
         this.props.firebase.auth().signOut();
         this.setState({ admin: false });
+        this.props.setAdmin('false');
     }
-
-    renderAdmin(user) {
-            console.log(user);
-            
-        }
 
     render() {
         return(

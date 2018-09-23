@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import ReactDOM from "react-dom";
 
 class Dashboard extends Component {
     state = { newName: this.props.messageContent || "" }
@@ -45,8 +44,5 @@ const Modal = ({ show, hideModal, children }) => {
         </div>
     );
 };
-// const container = document.createElement("div");
-// document.body.appendChild(container);
-// ReactDOM.render(<Dashboard />, container);
 
 export default Dashboard;

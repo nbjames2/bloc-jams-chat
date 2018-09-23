@@ -1,6 +1,6 @@
 import React from 'react';
 import Dashboard from './Dashboard';
-
+import Modaladd from './modal';
 
 class RoomList extends React.Component {
     constructor(props) {
@@ -12,7 +12,9 @@ class RoomList extends React.Component {
           active: "",
           show: false,
           modalMessage: "Rename room:",
-          newName: ""        
+          newName: "",
+          privateName: "",
+          showModal: false        
         };
     }
 
@@ -29,7 +31,11 @@ class RoomList extends React.Component {
     };
 
     hideModal = () => {
-        this.setState({ show: false });
+        if (this.state.show === true) {
+            this.setState({ show: false });
+        } else if (this.state.showModal === true) {
+            this.setState({ showModal: false })
+        }
     };
 
     handleSubmit = (e) => {
@@ -38,6 +44,7 @@ class RoomList extends React.Component {
         if (newRoomName !== "") {
             this.roomsRef.push({
                 name: newRoomName,
+                private: 'false'
             });
         this.setState({ newRoom: "" })
 
@@ -46,6 +53,10 @@ class RoomList extends React.Component {
 
     handleFormChange = (e) => {
         this.setState({ newRoom: e.target.value });
+    }
+
+    handlePrivateFormChange = (e) => {
+        this.setState({ privateName: e.target.value });
     }
 
     roomHighlight(name) {
@@ -71,13 +82,68 @@ class RoomList extends React.Component {
     modalResult = (e) => {
         if (e !== "") {
             const active = this.props.activeRoom;
-            this.props.firebase.database().ref().child("rooms").child(active.key).update({ name: e});
+            this.roomsRef.child(active.key).update({ name: e});
             const index = this.state.rooms.findIndex(room => room.name === this.props.activeRoom.name);
             const tempRooms = [...this.state.rooms];
             tempRooms[index].name = e;
             this.setState({ rooms: tempRooms });
         }
-    }    
+    }
+    
+    adminForm() {
+        if (this.props.admin === true) {
+            return (
+                <form onSubmit={ (e) => this.privateRoom(e) }>
+                <input className='roominput' type="text" placeholder='Open private room' value={this.state.privateName} onChange={this.handlePrivateFormChange}/>
+                <input type="submit" value="Add room" />
+                </form>
+            );
+        }
+    }
+
+    privateRoom(e) {
+        e.preventDefault();
+        const newRoomName = this.state.privateName;
+        if (newRoomName !== "") {
+            this.roomsRef.push({
+                name: newRoomName,
+                private: 'true',
+                members: ""
+            });
+            this.setState({ privateName: "" });
+        }
+    }
+
+    displayRooms(room) {
+        if (this.props.admin === true) {
+            if (room.private) {
+                if (room.key === this.props.activeRoom.key) {
+                    return <div>{room.name + " **private**"}
+                    <button id='addmember' onClick={() => this.selectMember()}>Add user</button></div>
+                } else {
+                    return <div>{room.name + " **private**"}</div>
+                }
+            } else {
+                return room.name;
+            }
+        } else {
+            if (!room.private) {
+                return room.name;
+            }
+        }
+    }
+    
+    selectMember = () => {
+        this.setState({ showModal: true });
+    }
+
+    addName = (name) => {
+        if (name !== "") {    
+            const active = this.props.activeRoom;
+            console.log(name.key);
+            this.roomsRef.child(active.key).child('members').set(name.key);
+        }
+    }
 
     render() {
         return(
@@ -90,15 +156,16 @@ class RoomList extends React.Component {
                 /></div> : null }
                 <div id='new-room-form'>              
                     <form onSubmit={ (e) => this.handleSubmit(e) }>
-                        <input id='input-new-room' type="text" placeholder='Open new room' value={this.state.newRoom} onChange={this.handleFormChange}/>
+                        <input className='roominput' type="text" placeholder='Open new room' value={this.state.newRoom} onChange={this.handleFormChange}/>
                         <input type="submit" value="Add room" />
                     </form>
+                    {this.adminForm()}
                 </div>
                     <section className='db-rooms'>
                     {
                         this.state.rooms.map( (value, index) =>
                                 <div className='room-number' style={{background: this.roomHighlight(value.name)}} value={value.name} onClick={() => this.handleClick(value)} key={value.key}>
-                                    {value.name}
+                                    {this.displayRooms(value)}
                                     {value.key === this.props.activeRoom.key ? 
                                         <div>
                                             <button id='rename-room' onClick={ this.showModal}>Rename</button>
@@ -108,13 +175,17 @@ class RoomList extends React.Component {
                         )
                     }
                 </section>
+                    {this.state.showModal ? <div><Modaladd
+                        showModal={this.state.showModal}
+                        hideModal={() => this.hideModal()}
+                        addName={(name) => this.addName(name)}
+                        userList={this.props.userList}
+                    /></div> : null }
             </section>
         );
     }
 }
 
-// const container = document.createElement("div");
-// document.body.appendChild(container);
-// ReactDOM.render(<Roomlist />, container);
+
 
 export default RoomList;
