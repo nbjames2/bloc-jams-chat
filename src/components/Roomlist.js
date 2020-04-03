@@ -51,9 +51,9 @@ class RoomList extends React.Component {
         return(
             <section id='roomlist'> 
                 <div id='new-room-form'>              
-                    <form onSubmit={ (e) => this.handleSubmit(e) }>
+                    <form>
                         <input id='input-new-room' type="text" placeholder='Open new room' value={this.state.newRoom} onChange={this.handleFormChange}/>
-                        <input type="submit" value="Add room" />
+                        <button onSubmit={ (e) => this.handleSubmit(e) }>Add room</button>
                     </form>
                 </div>
                     <section className='db-rooms'>

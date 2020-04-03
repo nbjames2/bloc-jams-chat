@@ -1,0 +1,46 @@
+@import './MessageList.scss';
+@import './RoomList.scss';
+@import './User.scss';
+
+.App {
+  text-align: center;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+#fullscreen {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  padding: 8px;
+}
+
+#sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  background: lightgray;
+  height: 100%;
+  width: 20%;
+  padding: 8px;
+}
+
+#sidebar > #subsidebar {
+  display: grid;
+  gap: 8px;
+}
+
+button {
+  background-color: rgb(150, 200, 250);
+  outline: none;
+  border: none;
+  cursor: pointer;
+
+  :hover {
+    box-shadow: 0 0 10px 12px rgba(0, 0, 0, 0.2);
+  }
+}
