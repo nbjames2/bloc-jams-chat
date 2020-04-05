@@ -20,27 +20,39 @@
   padding: 8px;
 }
 
-#sidebar {
+.sidebar-wrapper {
   position: fixed;
   top: 0; left: 0; bottom: 0;
-  background: lightgray;
+  background: #29506D;
   height: 100%;
+  box-sizing: border-box;
   width: 20%;
   padding: 8px;
+  color: white;
+  
+  .sidebar {
+    display: grid;
+    gap: 8px;
+    
+  }
 }
 
-#sidebar > #subsidebar {
-  display: grid;
-  gap: 8px;
+.title {
+  font-size: 2.2em;
 }
 
 button {
-  background-color: rgb(150, 200, 250);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #A97538;
+  padding: 8px;
+  color: white;
   outline: none;
   border: none;
   cursor: pointer;
 
   :hover {
-    box-shadow: 0 0 10px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px 12px rgba(0, 0, 0, 0.2);
   }
 }

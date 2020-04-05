@@ -22,11 +22,11 @@ class RoomList extends React.Component {
       handleSubmit = (e) => {
         e.preventDefault();
         const newRoomName = this.state.newRoom
-        if (newRoomName !== "") {
+        if (newRoomName) {
             this.roomsRef.push({
                 name: newRoomName,
             });
-        this.setState({ newRoom: "" })
+        this.setState({ newRoom: '' })
 
         }
       }
@@ -37,9 +37,9 @@ class RoomList extends React.Component {
 
       roomHighlight(name) {
           if(this.state.active === name) {
-              return '#bcbcbc';
+              return '#A97538';
           }
-          return "";
+          return '';
       }
 
       handleClick(room) {
@@ -49,13 +49,11 @@ class RoomList extends React.Component {
 
     render() {
         return(
-            <section id='roomlist'> 
-                <div id='new-room-form'>              
-                    <form>
-                        <input id='input-new-room' type="text" placeholder='Open new room' value={this.state.newRoom} onChange={this.handleFormChange}/>
-                        <button onSubmit={ (e) => this.handleSubmit(e) }>Add room</button>
-                    </form>
-                </div>
+            <section className='roomlist'> 
+                <form className='new-room-form'>              
+                    <input className='input menu-input' type="text" placeholder='Open new room' value={this.state.newRoom} onChange={this.handleFormChange}/>
+                    <button onSubmit={ (e) => this.handleSubmit(e) }>Add room</button>
+                </form>
                     <section className='db-rooms'>
                     {
                         this.state.rooms.map( (value, index) =>

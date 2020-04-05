@@ -1,0 +1,27 @@
+#messages {
+  position: relative;
+  margin-left: 20%;
+}
+
+.room-title {
+  font-size: 2em;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 16px;
+  text-decoration: underline;
+  
+}
+
+#send-message {
+  position: fixed;
+  left: 20%; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+#new-message-field {
+  flex-grow: 1;
+  font-size: 1.2em;
+}

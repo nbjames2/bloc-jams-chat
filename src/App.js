@@ -37,9 +37,9 @@ class App extends Component {
   render() {
     return (
       <section id="fullscreen">
-        <section id='sidebar'>
-          <div id='subsidebar'>
-            <h1 id='title'>Bloc Chat</h1>
+        <section className='sidebar-wrapper'>
+          <div className='sidebar'>
+            <h1 className='title'>Nick Chat</h1>
             <User id='user'
               firebase={firebase}
               userAuth={this.state.userAuth}

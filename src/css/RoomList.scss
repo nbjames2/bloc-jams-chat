@@ -1,5 +1,40 @@
-#roomlist {
+.roomlist {
   padding: 8px;
   display: grid;
   gap: 8px;
+
+}
+    
+.new-room-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+.input {
+  flex-grow: 1;
+}
+
+.db-rooms {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 1.2em;
+}
+
+.room-number {
+  cursor: pointer;
+  width: 100%;
+  padding: 8px;
+}
+
+.room-number:hover {
+  background-color: #254863;
+}
+
+.room-number:active {
+  background-color: #113754;
 }

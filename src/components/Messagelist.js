@@ -59,8 +59,7 @@ class MessageList extends React.Component {
 
       handleSendMessage = (e) => {
         e.preventDefault();
-        console.log(this.state.newMessage);
-        if (this.state.newMessage !== "") {
+        if (this.state.newMessage && this.props.activeRoom) {
             this.messagesRef.push({
                 content: this.state.newMessage,
                 roomId: this.props.activeRoom.key,
@@ -73,8 +72,8 @@ class MessageList extends React.Component {
 
     render() {
         return(
-            <section id='messagelist'>
-                <h1>{this.props.activeRoom.name}</h1>
+            <section id='message-list'>
+                <h1 className='room-title'>Room: {this.props.activeRoom.name}</h1>
                 { this.state.displayedMessages.map( (value, index) =>
                         <div key={index} style={{background: index % 2 ? '#f2feff':'#fffffff' }} className='messages'>
                             <div className='message-user'>{value.username}</div>
@@ -83,12 +82,10 @@ class MessageList extends React.Component {
                         </div>
                     )
                 }
-                <section id='create-message'>
-                    <form id='send-message'>
-                        <input id='newmessagefield' type='text' value={this.state.newMessage} placeholder='Send new message' onChange={this.handleInputChange} />
-                        <input id='newmessagesend' type='submit' value='Send' onClick={this.handleSendMessage} />
-                    </form>
-                </section>
+                <form id='send-message'>
+                    <input id='new-message-field' type='text' value={this.state.newMessage} placeholder='Send new message' onChange={this.handleInputChange} />
+                    <button id='new-message-send' onClick={this.handleSendMessage}><i className='material-icons'>send</i></button>
+                </form>
             </section>
         )
     }
