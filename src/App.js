@@ -49,15 +49,19 @@ class App extends Component {
               firebase={firebase}
               activeRoom={this.state.activeRoom}
               handleRoomClick={(e) => this.handleRoomClick(e)}
+              user={this.state.userAuth}
             />
           </div>
         </section>
         <section id='messages'>
-          <MessageList id='messagelist'
+          {this.state.userAuth
+          ? <MessageList id='messagelist'
             firebase={firebase}
             activeRoom={this.state.activeRoom}
             userAuth={this.state.userAuth}
+            user={this.state.userAuth}
           />
+          : ''}
         </section> 
       </section>
     );

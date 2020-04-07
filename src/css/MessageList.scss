@@ -12,6 +12,13 @@
   
 }
 
+.name-time-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 #send-message {
   position: fixed;
   left: 20%; right: 0; bottom: 0;

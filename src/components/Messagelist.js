@@ -75,10 +75,12 @@ class MessageList extends React.Component {
             <section id='message-list'>
                 <h1 className='room-title'>Room: {this.props.activeRoom.name}</h1>
                 { this.state.displayedMessages.map( (value, index) =>
-                        <div key={index} style={{background: index % 2 ? '#f2feff':'#fffffff' }} className='messages'>
-                            <div className='message-user'>{value.username}</div>
+                        <div key={index} style={{backgroundColor: index % 2 ? 'rgba(144, 194, 231, 0.1)':'#fffffff' }} className='messages'>
+                            <div className='name-time-container'style={{ flexDirection: this.props.user.displayName === value.username ? 'row-reverse' : 'row' }}>
+                                <div className='message-user'>{this.props.user && this.props.user.displayName === value.username ? 'You' : value.username}</div>
+                                <div className='message-sentAt'>{this.timeConverter(value.sentAt)}</div>
+                            </div>
                             <div className='message-content'>{value.content}</div>
-                            <div className='message-sentAt'>{this.timeConverter(value.sentAt)}</div>
                         </div>
                     )
                 }

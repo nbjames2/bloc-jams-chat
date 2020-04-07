@@ -37,7 +37,7 @@ class RoomList extends React.Component {
 
       roomHighlight(name) {
           if(this.state.active === name) {
-              return '#A97538';
+              return '#5C6672';
           }
           return '';
       }
@@ -51,8 +51,8 @@ class RoomList extends React.Component {
         return(
             <section className='roomlist'> 
                 <form className='new-room-form'>              
-                    <input className='input menu-input' type="text" placeholder='Open new room' value={this.state.newRoom} onChange={this.handleFormChange}/>
-                    <button onSubmit={ (e) => this.handleSubmit(e) }>Add room</button>
+                    <input className='input menu-input' type="text" placeholder='Open new room' value={this.state.newRoom} onChange={this.handleFormChange} disabled={this.props.user ? '' : 'true'}/>
+                    <button onSubmit={ (e) => this.handleSubmit(e) } disabled={this.props.user ? '' : 'true'}>Add room</button>
                 </form>
                     <section className='db-rooms'>
                     {
